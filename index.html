@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<title>MoneySafe — умный учёт расходов голосом</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="Скажи «такси 700» — MoneySafe сам распознает сумму, категорию и дату. Быстрый и простой учёт расходов для iPhone."/>
+<meta property="og:title" content="MoneySafe — умный учёт расходов"/>
+<meta property="og:description" content="Записывай траты голосом. Меньше кликов — больше осознанности."/>
+<meta property="og:type" content="website"/>
+<link rel="icon" type="image/png" href="assets/AppIcon-60@2x.png"/>
+<link rel="apple-touch-icon" href="assets/AppIcon-1024.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="tokens.css"/>
+<style>
+  body { background: var(--ms-bg); font-family: var(--ms-font); color: var(--ms-ink); margin: 0; }
+  a { color: inherit; text-decoration: none; }
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+  .nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 28px 0;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 12px;
+    font-weight: 800; font-size: 20px; letter-spacing: -0.01em;
+  }
+  .nav-logo .mark {
+    width: 40px; height: 40px; border-radius: 11px;
+    overflow: hidden; flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(58,31,26,0.12);
+  }
+  .nav-logo .mark img { display: block; width: 100%; height: 100%; }
+  .nav-links { display: flex; gap: 32px; font-weight: 600; font-size: 16px; color: var(--ms-ink-soft); }
+  .nav-links a:hover { color: var(--ms-red); }
+  .nav-cta {
+    background: var(--ms-ink); color: #fff; padding: 12px 22px;
+    border-radius: 999px; font-weight: 700; font-size: 15px;
+  }
+
+  /* Hero */
+  .hero { padding: 60px 0 80px; position: relative; overflow: hidden; }
+  .hero-grid {
+    display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px;
+    align-items: center;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(229,57,42,0.1); color: var(--ms-red);
+    padding: 10px 18px; border-radius: 999px;
+    font-weight: 700; font-size: 14px; letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .hero-h1 {
+    font-size: clamp(56px, 8vw, 116px);
+    font-weight: 900; line-height: 0.94;
+    letter-spacing: -0.045em;
+    margin: 0 0 28px;
+  }
+  .hero-h1 .accent { color: var(--ms-red); }
+  .hero-h1 .pill {
+    background: var(--ms-brown-deep); color: #fff;
+    padding: 0 0.18em; border-radius: 0.16em;
+    display: inline-block; line-height: 1.06;
+  }
+  .hero-sub {
+    font-size: clamp(18px, 2vw, 24px);
+    color: var(--ms-muted); font-weight: 500;
+    line-height: 1.4; max-width: 580px;
+    margin: 0 0 40px;
+  }
+  .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+  .btn-store {
+    display: inline-flex; align-items: center; gap: 14px;
+    background: var(--ms-ink); color: #fff;
+    padding: 18px 28px; border-radius: 16px;
+    font-weight: 700;
+  }
+  .btn-store .icon { font-size: 32px; }
+  .btn-store .top { font-size: 11px; opacity: 0.7; letter-spacing: 0.08em; text-transform: uppercase; }
+  .btn-store .bot { font-size: 20px; font-weight: 800; letter-spacing: -0.01em; }
+  .hero-stats { display: flex; gap: 40px; margin-top: 48px; }
+  .hero-stat .num { font-size: 36px; font-weight: 900; letter-spacing: -0.03em; line-height: 1; }
+  .hero-stat .lab { font-size: 14px; color: var(--ms-muted); font-weight: 600; margin-top: 6px; }
+
+  .hero-phone {
+    position: relative;
+    display: flex; justify-content: center;
+  }
+  .hero-phone::before {
+    content: ''; position: absolute;
+    width: 480px; height: 480px;
+    background: var(--ms-pink-faint);
+    border-radius: 50%;
+    top: 8%; left: 50%; transform: translateX(-50%);
+    z-index: 0;
+  }
+  .phone-wrap { position: relative; z-index: 1; }
+
+  /* Sections */
+  .section { padding: 100px 0; }
+  .section.cream { background: var(--ms-bg); }
+  .section.dark { background: var(--ms-brown-deep); color: #fff; }
+  .section.red { background: var(--ms-red); color: #fff; }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 14px; font-weight: 700; color: var(--ms-red);
+    text-transform: uppercase; letter-spacing: 0.12em;
+    margin-bottom: 16px;
+  }
+  .section.dark .eyebrow, .section.red .eyebrow { color: var(--ms-coral); }
+  .section-title {
+    font-size: clamp(40px, 5.5vw, 72px);
+    font-weight: 900; letter-spacing: -0.035em;
+    line-height: 1;
+    margin: 0 0 24px;
+    max-width: 880px;
+    text-wrap: balance;
+  }
+  .section-title .accent { color: var(--ms-red); }
+  .section.dark .section-title .accent, .section.red .section-title .accent { color: var(--ms-coral); }
+  .section-sub {
+    font-size: 20px; color: var(--ms-muted);
+    line-height: 1.45; max-width: 660px; margin: 0;
+  }
+  .section.dark .section-sub, .section.red .section-sub { color: rgba(255,255,255,0.72); }
+
+  /* Voice section */
+  .voice-grid {
+    display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 80px;
+    align-items: center; margin-top: 60px;
+  }
+  .voice-cards { display: flex; flex-direction: column; gap: 18px; }
+  .vc {
+    background: #fff; border-radius: 22px; padding: 22px 26px;
+    box-shadow: 0 6px 24px rgba(58,31,26,0.06);
+  }
+  .vc-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+  .vc-tag {
+    background: rgba(229,57,42,0.1); color: var(--ms-red);
+    padding: 5px 14px; border-radius: 12px;
+    font-size: 12px; font-weight: 800;
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .vc-phrase { font-size: 18px; font-weight: 700; color: var(--ms-ink-soft); }
+  .vc-body { display: flex; align-items: center; gap: 16px; padding-top: 14px; border-top: 2px dashed rgba(58,31,26,0.12); }
+  .vc-icon {
+    width: 56px; height: 56px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+  }
+  .vc-meta { flex: 1; }
+  .vc-cat { font-size: 22px; font-weight: 800; line-height: 1; }
+  .vc-sub { font-size: 13px; color: var(--ms-muted); font-weight: 600; margin-top: 4px; }
+  .vc-amt { font-size: 24px; font-weight: 800; }
+
+  /* Features grid */
+  .features {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    margin-top: 60px;
+  }
+  .feature {
+    background: #fff; border-radius: 28px; padding: 36px;
+    box-shadow: 0 6px 24px rgba(58,31,26,0.04);
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .feature-icon {
+    width: 64px; height: 64px; border-radius: 18px;
+    background: rgba(229,57,42,0.1); color: var(--ms-red);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px; font-weight: 900;
+  }
+  .feature h3 {
+    font-size: 26px; font-weight: 800; letter-spacing: -0.02em;
+    margin: 8px 0 4px;
+  }
+  .feature p { font-size: 16px; color: var(--ms-muted); line-height: 1.5; margin: 0; }
+
+  /* Categories grid */
+  .cats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 18px;
+    margin-top: 60px;
+  }
+  .cat {
+    display: flex; align-items: center; gap: 16px;
+    background: rgba(255,255,255,0.08);
+    border: 1.5px solid rgba(255,255,255,0.12);
+    border-radius: 18px;
+    padding: 18px 22px;
+    backdrop-filter: blur(8px);
+  }
+  .cat-emoji {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: rgba(255,255,255,0.12);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+  .cat-name { font-size: 18px; font-weight: 700; }
+
+  /* Analytics tease */
+  .analytics-bar {
+    display: flex; gap: 6px; margin-top: 60px;
+    height: 80px;
+  }
+  .analytics-bar div {
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 800; font-size: 22px;
+  }
+
+  /* CTA */
+  .cta {
+    text-align: center;
+    padding: 120px 0;
+    background: var(--ms-red);
+    color: #fff;
+  }
+  .cta h2 {
+    font-size: clamp(48px, 6vw, 92px);
+    font-weight: 900; letter-spacing: -0.04em;
+    line-height: 0.96; margin: 0 0 32px;
+    text-wrap: balance;
+  }
+  .cta-ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .cta .btn-store {
+    background: #fff; color: var(--ms-ink);
+  }
+
+  /* Footer */
+  footer {
+    padding: 48px 0;
+    border-top: 1px solid rgba(58,31,26,0.08);
+    color: var(--ms-muted);
+    font-size: 14px;
+  }
+  .foot-row {
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .foot-links { display: flex; gap: 28px; }
+  .foot-links a:hover { color: var(--ms-red); }
+
+  /* Privacy section */
+  .privacy { font-size: 16px; line-height: 1.7; }
+  .privacy h3 {
+    font-size: 22px; font-weight: 800; letter-spacing: -0.01em;
+    margin: 36px 0 14px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .privacy h3 .num {
+    width: 30px; height: 30px; flex-shrink: 0;
+    background: rgba(229,57,42,0.12); color: var(--ms-red);
+    border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 800;
+  }
+  .privacy p { color: var(--ms-ink-soft); margin: 0 0 12px; }
+  .privacy ul { padding-left: 20px; margin: 0 0 14px; color: var(--ms-ink-soft); }
+  .privacy ul li { margin-bottom: 6px; }
+  .privacy a { color: var(--ms-red); text-decoration: underline; text-underline-offset: 3px; }
+  .privacy-highlight {
+    background: rgba(229,57,42,0.08); border-left: 4px solid var(--ms-red);
+    border-radius: 0 10px 10px 0;
+    padding: 18px 22px; margin: 24px 0; color: var(--ms-ink-soft);
+    font-size: 16px; line-height: 1.55;
+  }
+  .info-card {
+    background: #fff; border: 1px solid rgba(58,31,26,0.08);
+    border-radius: 14px; padding: 18px 22px;
+    margin: 14px 0;
+  }
+  .info-card strong {
+    display: block; font-size: 12px; color: var(--ms-muted);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-bottom: 6px; font-weight: 700;
+  }
+  .info-card span { font-size: 15px; color: var(--ms-ink-soft); }
+  .data-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+    margin: 18px 0;
+  }
+  .data-item {
+    background: #fff; border: 1px solid rgba(58,31,26,0.08);
+    border-radius: 14px; padding: 16px 18px;
+  }
+  .data-item .label {
+    font-size: 11px; color: var(--ms-muted); font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+  .data-item .value { font-size: 14px; color: var(--ms-ink-soft); line-height: 1.5; }
+  .data-item .tag {
+    display: inline-block; margin-top: 8px;
+    background: rgba(229,57,42,0.1); color: var(--ms-red);
+    font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 8px;
+    letter-spacing: 0.04em;
+  }
+  .privacy-table-wrap { overflow-x: auto; margin: 16px 0; }
+  .privacy table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .privacy th {
+    text-align: left; padding: 12px 16px;
+    background: #fff; border: 1px solid rgba(58,31,26,0.08);
+    font-weight: 700; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--ms-muted);
+  }
+  .privacy td {
+    padding: 12px 16px; border: 1px solid rgba(58,31,26,0.08);
+    vertical-align: top; color: var(--ms-ink-soft); background: #fff;
+  }
+  .privacy tr:nth-child(even) td { background: #fafaf9; }
+  @media (max-width: 600px) { .data-grid { grid-template-columns: 1fr; } }
+
+  /* Mobile */
+  @media (max-width: 860px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 24px; }
+    .hero-phone { order: -1; }
+    .voice-grid { grid-template-columns: 1fr; gap: 40px; }
+    .features { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .section { padding: 64px 0; }
+    .container { padding: 0 20px; }
+    .hero-stats { gap: 24px; flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<header class="container">
+  <nav class="nav">
+    <a href="#top" class="nav-logo">
+      <span class="mark"><img src="assets/AppIcon-60@2x.png" alt="MoneySafe"/></span>
+      <span>MoneySafe</span>
+    </a>
+    <div class="nav-links">
+      <a href="#features">Возможности</a>
+      <a href="#voice">Голос</a>
+      <a href="#categories">Категории</a>
+      <a href="#analytics">Аналитика</a>
+    </div>
+    <a href="#download" class="nav-cta">Скачать</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="container hero-grid">
+    <div>
+      <div class="hero-badge">
+        <img src="assets/AppIcon-60@2x.png" alt="" style="width: 22px; height: 22px; border-radius: 6px;"/>
+        Учёт расходов голосом
+      </div>
+      <h1 class="hero-h1">
+        Сказал —<br/>
+        <span class="accent">записал.</span>
+      </h1>
+      <p class="hero-sub">
+        Скажи «такси 700» — MoneySafe сам распознает сумму, категорию и дату.
+        Без форм, без подсчётов, без скучных таблиц.
+      </p>
+      <div class="hero-ctas">
+        <a href="#download" class="btn-store">
+          <span class="icon"></span>
+          <span>
+            <span class="top">Скачать в</span><br/>
+            <span class="bot">App Store</span>
+          </span>
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="num">3 сек</div>
+          <div class="lab">от слова — до записи</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">8+</div>
+          <div class="lab">категорий из коробки</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">0₽</div>
+          <div class="lab">бесплатно начать</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-phone">
+      <div class="phone-wrap" id="hero-phone-slot"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features" style="background: #efece6;">
+  <div class="container">
+    <div class="eyebrow">Что умеет MoneySafe</div>
+    <h2 class="section-title">Учёт расходов без боли — <span class="accent">наконец-то.</span></h2>
+
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">🎙</div>
+        <h3>Голосовой ввод</h3>
+        <p>Нажми, проговори трату — приложение само разберёт сумму, категорию и дату. Никаких форм и калькуляторов.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">✦</div>
+        <h3>Умный AI</h3>
+        <p>«Кофе 300 вчера», «фитнес 15 000», «такси 700» — алгоритм распознает контекст и подставит правильные поля.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📊</div>
+        <h3>Понятная аналитика</h3>
+        <p>Куда уходят деньги? Видно с первого взгляда: категории, проценты, тренды по месяцам.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VOICE DEMO -->
+<section class="section" id="voice">
+  <div class="container">
+    <div class="eyebrow">Голос</div>
+    <h2 class="section-title">Говоришь — <span class="accent">я понимаю.</span></h2>
+    <p class="section-sub">Просто скажи, что потратил. MoneySafe сам распознает сумму, категорию и дату — даже если ты говоришь «вчера» или «позавчера».</p>
+
+    <div class="voice-grid">
+      <div class="voice-cards">
+        <div class="vc">
+          <div class="vc-head">
+            <span class="vc-tag">голос</span>
+            <span class="vc-phrase">«такси 700»</span>
+          </div>
+          <div class="vc-body">
+            <div class="vc-icon" style="background: #DCE7FF;">🚕</div>
+            <div class="vc-meta">
+              <div class="vc-cat">Транспорт</div>
+            </div>
+            <div class="vc-amt">700 ₽</div>
+          </div>
+        </div>
+        <div class="vc">
+          <div class="vc-head">
+            <span class="vc-tag">голос</span>
+            <span class="vc-phrase">«кофе 300 вчера»</span>
+          </div>
+          <div class="vc-body">
+            <div class="vc-icon" style="background: #F1E8DD;">☕</div>
+            <div class="vc-meta">
+              <div class="vc-cat">Еда</div>
+              <div class="vc-sub">вчера</div>
+            </div>
+            <div class="vc-amt">300 ₽</div>
+          </div>
+        </div>
+        <div class="vc">
+          <div class="vc-head">
+            <span class="vc-tag">голос</span>
+            <span class="vc-phrase">«Фитнес 15 000»</span>
+          </div>
+          <div class="vc-body">
+            <div class="vc-icon" style="background: #FFD7D9;">❤️</div>
+            <div class="vc-meta">
+              <div class="vc-cat">Здоровье</div>
+            </div>
+            <div class="vc-amt">15 000 ₽</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-phone" style="justify-content: center;">
+        <div class="phone-wrap" id="voice-phone-slot"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="section dark" id="categories">
+  <div class="container">
+    <div class="eyebrow">Категории</div>
+    <h2 class="section-title">Восемь — из коробки. <span class="accent">+ свои.</span></h2>
+    <p class="section-sub">Базовые категории уже на месте. Хочешь больше — добавляй, переименовывай, меняй иконки. Без программирования.</p>
+
+    <div class="cats">
+      <div class="cat"><div class="cat-emoji">🍎</div><div class="cat-name">Еда</div></div>
+      <div class="cat"><div class="cat-emoji">🚕</div><div class="cat-name">Транспорт</div></div>
+      <div class="cat"><div class="cat-emoji">🏠</div><div class="cat-name">Дом</div></div>
+      <div class="cat"><div class="cat-emoji">📱</div><div class="cat-name">Связь</div></div>
+      <div class="cat"><div class="cat-emoji">❤️</div><div class="cat-name">Здоровье</div></div>
+      <div class="cat"><div class="cat-emoji">💸</div><div class="cat-name">Переводы</div></div>
+      <div class="cat"><div class="cat-emoji">🎬</div><div class="cat-name">Развлечения</div></div>
+      <div class="cat"><div class="cat-emoji">🛍️</div><div class="cat-name">Покупки</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ANALYTICS -->
+<section class="section" id="analytics" style="background: var(--ms-bg);">
+  <div class="container">
+    <div class="eyebrow">Аналитика</div>
+    <h2 class="section-title">Куда ушли <span class="accent">38 134 ₽?</span></h2>
+    <p class="section-sub">Один график — и понятно, на что уходит бюджет. Каждый месяц. Каждая категория. Без Excel.</p>
+
+    <div class="analytics-bar">
+      <div style="flex: 32; background: var(--ms-red);">32%</div>
+      <div style="flex: 24; background: var(--ms-brown-deep);">24%</div>
+      <div style="flex: 18; background: var(--ms-coral);">18%</div>
+      <div style="flex: 14; background: var(--ms-salmon);"></div>
+      <div style="flex: 12; background: var(--ms-peach); color: var(--ms-ink);"></div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 24px;">
+      <div style="display: flex; gap: 12px; align-items: center;"><div style="width: 20px; height: 20px; border-radius: 6px; background: var(--ms-red);"></div><div><div style="font-weight: 700;">Еда</div><div style="font-size: 13px; color: var(--ms-muted);">32%</div></div></div>
+      <div style="display: flex; gap: 12px; align-items: center;"><div style="width: 20px; height: 20px; border-radius: 6px; background: var(--ms-brown-deep);"></div><div><div style="font-weight: 700;">Транспорт</div><div style="font-size: 13px; color: var(--ms-muted);">24%</div></div></div>
+      <div style="display: flex; gap: 12px; align-items: center;"><div style="width: 20px; height: 20px; border-radius: 6px; background: var(--ms-coral);"></div><div><div style="font-weight: 700;">Покупки</div><div style="font-size: 13px; color: var(--ms-muted);">18%</div></div></div>
+      <div style="display: flex; gap: 12px; align-items: center;"><div style="width: 20px; height: 20px; border-radius: 6px; background: var(--ms-salmon);"></div><div><div style="font-weight: 700;">Развлечения</div><div style="font-size: 13px; color: var(--ms-muted);">14%</div></div></div>
+      <div style="display: flex; gap: 12px; align-items: center;"><div style="width: 20px; height: 20px; border-radius: 6px; background: var(--ms-peach);"></div><div><div style="font-weight: 700;">Здоровье</div><div style="font-size: 13px; color: var(--ms-muted);">12%</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRIVACY -->
+<section class="section" id="privacy" style="background: #efece6;">
+  <div class="container" style="max-width: 880px;">
+    <div class="eyebrow">Конфиденциальность</div>
+    <h2 class="section-title" style="font-size: clamp(36px, 4.5vw, 56px);">Политика конфиденциальности</h2>
+    <p class="section-sub" style="margin-bottom: 32px;">Последнее обновление: май 2026 г. · Действует с момента публикации в App Store</p>
+
+    <div class="privacy-highlight">
+      Мы не продаём и не передаём ваши данные рекламодателям. Приложение не использует трекинг между сторонними приложениями и сайтами. Все финансовые записи хранятся исключительно на вашем устройстве.
+    </div>
+
+    <article class="privacy">
+
+      <h3><span class="num">1</span> Кто мы и как с нами связаться</h3>
+      <div class="info-card"><strong>Оператор персональных данных</strong><span>Физическое лицо (индивидуальный разработчик), аккаунт Apple Developer — Individual</span></div>
+      <div class="info-card"><strong>Email для запросов по персональным данным</strong><span><a href="mailto:m0neysafe@yandex.com">m0neysafe@yandex.com</a></span></div>
+      <p>Настоящая политика распространяется на мобильное приложение MoneySafe для iOS и не распространяется на сторонние сервисы, ссылки на которые могут присутствовать в приложении.</p>
+
+      <h3><span class="num">2</span> Какие данные мы собираем</h3>
+      <p>Мы собираем минимально необходимый объём данных.</p>
+      <div class="data-grid">
+        <div class="data-item"><div class="label">Email-адрес</div><div class="value">Добровольно — только если вы оставили заявку на ранний доступ к расширенным функциям</div><span class="tag">Contact Info</span></div>
+        <div class="data-item"><div class="label">Данные об использовании</div><div class="value">Анонимные события: какие экраны открывались, какие функции использовались, факт запуска приложения</div><span class="tag">Usage Data</span></div>
+        <div class="data-item"><div class="label">Финансовые записи</div><div class="value">Суммы, категории, заметки к транзакциям — хранятся только локально на вашем устройстве, никуда не передаются</div><span class="tag">На устройстве</span></div>
+        <div class="data-item"><div class="label">Технические данные</div><div class="value">Версия iOS, модель устройства, идентификатор установки — собираются аналитическим SDK в анонимном виде</div><span class="tag">Usage Data</span></div>
+      </div>
+      <p>Приложение <strong>не собирает</strong>: геолокацию, контакты, фотографии, биометрические данные, данные из других приложений. Трекинг между приложениями и сайтами (<em>App Tracking Transparency</em>) — <strong>отключён</strong>.</p>
+
+      <h3><span class="num">3</span> Как и зачем мы используем данные</h3>
+      <div class="privacy-table-wrap">
+        <table>
+          <thead><tr><th>Данные</th><th>Цель</th><th>Правовое основание</th></tr></thead>
+          <tbody>
+            <tr><td>Email-адрес</td><td>Уведомить вас о старте бета-тестирования расширенных функций</td><td>Согласие пользователя (ст. 9 ФЗ-152)</td></tr>
+            <tr><td>Данные об использовании</td><td>Понять, какими функциями пользуются чаще всего, чтобы улучшать приложение</td><td>Законный интерес разработчика</td></tr>
+            <tr><td>Технические данные</td><td>Диагностика ошибок и сбоев</td><td>Законный интерес разработчика</td></tr>
+            <tr><td>Финансовые записи</td><td>Отображение истории расходов внутри приложения</td><td>Исполнение договора (предоставление функционала)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Мы не принимаем автоматизированных решений на основе ваших данных, не строим профили и не занимаемся таргетированной рекламой.</p>
+
+      <h3><span class="num">4</span> Передача данных третьим лицам</h3>
+      <p>Мы работаем с двумя сторонними сервисами.</p>
+      <div class="info-card"><strong>Yandex AppMetrica</strong><span>Аналитический SDK для iOS. Получает анонимные события об использовании приложения и технические данные устройства. Данные обрабатываются в соответствии с <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noopener">политикой конфиденциальности Яндекса</a>. Серверы расположены в России.</span></div>
+      <div class="info-card"><strong>Unisender</strong><span>Email-платформа. Получает только тот email-адрес, который вы добровольно указали при записи на ранний доступ. Данные обрабатываются в соответствии с <a href="https://www.unisender.com/ru/legal/privacy/" target="_blank" rel="noopener">политикой конфиденциальности Unisender</a>.</span></div>
+      <p>Помимо указанных сервисов, мы не передаём ваши данные никаким третьим лицам, государственным органам (кроме случаев, предусмотренных законом) и не продаём их.</p>
+
+      <h3><span class="num">5</span> Хранение и защита данных</h3>
+      <ul>
+        <li><strong>Финансовые данные</strong> — хранятся исключительно в локальной базе данных на вашем устройстве (защищена шифрованием iOS). Мы не имеем к ним доступа.</li>
+        <li><strong>Email-адрес</strong> — хранится в Unisender. Вы можете отписаться и удалить его в любой момент.</li>
+        <li><strong>Аналитические данные</strong> — обрабатываются AppMetrica. Срок хранения определяется политикой Яндекса.</li>
+      </ul>
+      <p>При удалении приложения все локальные данные удаляются автоматически. Если вы хотите также удалить email из нашей базы — напишите нам.</p>
+
+      <h3><span class="num">6</span> Ваши права</h3>
+      <p>В соответствии с Федеральным законом №152-ФЗ «О персональных данных» вы вправе:</p>
+      <ul>
+        <li>Получить информацию о том, какие ваши данные мы обрабатываем</li>
+        <li>Потребовать исправления неточных данных</li>
+        <li>Потребовать удаления ваших персональных данных</li>
+        <li>Отозвать согласие на обработку данных в любое время</li>
+      </ul>
+      <p>Для реализации любого из этих прав напишите на <a href="mailto:m0neysafe@yandex.com">m0neysafe@yandex.com</a> — мы ответим в течение 30 дней.</p>
+      <div class="privacy-highlight" style="margin-top: 20px;">Если вы оставили email для раннего доступа, вы можете в любой момент написать нам — и мы удалим ваш адрес из базы в течение 3 рабочих дней.</div>
+
+      <h3><span class="num">7</span> Дети</h3>
+      <p>Приложение не предназначено для детей до 13 лет. Мы не собираем намеренно данные несовершеннолетних. Если вам стало известно, что ребёнок предоставил нам персональные данные — свяжитесь с нами, и мы незамедлительно их удалим.</p>
+
+      <h3><span class="num">8</span> Изменения политики</h3>
+      <p>При существенных изменениях мы обновим дату в начале раздела и уведомим пользователей через экран «Что нового» при следующем обновлении приложения. Продолжение использования приложения после вступления изменений в силу означает ваше согласие с обновлённой политикой.</p>
+
+      <h3><span class="num">9</span> Контакты</h3>
+      <div class="info-card"><strong>По вопросам конфиденциальности</strong><span><a href="mailto:m0neysafe@yandex.com">m0neysafe@yandex.com</a></span></div>
+      <p>Мы постараемся ответить как можно быстрее и в любом случае — не позднее 30 дней с момента получения запроса.</p>
+    </article>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="download">
+  <div class="container">
+    <div style="display: flex; justify-content: center; margin-bottom: 32px;">
+      <img src="assets/AppIcon-1024.png" alt="MoneySafe" style="width: 140px; height: 140px; border-radius: 32px; box-shadow: 0 20px 50px rgba(0,0,0,0.25);"/>
+    </div>
+    <h2>Финансы под контролем.<br/>За 3 секунды.</h2>
+    <div class="cta-ctas">
+      <a href="#" class="btn-store">
+        <span class="icon"></span>
+        <span>
+          <span class="top">Скачать в</span><br/>
+          <span class="bot">App Store</span>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container foot-row">
+    <div>© 2026 MoneySafe. Все права защищены.</div>
+    <div class="foot-links">
+      <a href="#privacy">Политика конфиденциальности</a>
+      <a href="mailto:m0neysafe@yandex.com">Связь с разработчиком</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Phone mockups (React-rendered) -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="app-screens.jsx"></script>
+<script type="text/babel">
+const SCREEN_W = 1170, SCREEN_H = 2532;
+function Phone({ children, w = 380 }) {
+  const ratio = SCREEN_H / SCREEN_W;
+  const h = w * ratio;
+  const bezel = Math.round(w * 0.028);
+  const outerRadius = Math.round(w * 0.108);
+  const innerRadius = outerRadius - bezel;
+  const innerW = w - bezel * 2;
+  const scale = innerW / SCREEN_W;
+  const islandW = Math.round(innerW * 0.30);
+  const islandH = Math.round(innerW * 0.082);
+  const islandLeft = Math.round((innerW - islandW) / 2);
+  const islandTop = Math.round(bezel * 0.55);
+  return (
+    <div style={{ width: w, height: h, position: 'relative', borderRadius: outerRadius, background: '#0a0a0a', padding: bezel, boxShadow: 'var(--ms-shadow-phone)' }}>
+      <div style={{ position: 'absolute', inset: bezel, borderRadius: innerRadius, overflow: 'hidden', background: '#f4efe4' }}>
+        <div style={{ width: SCREEN_W, height: SCREEN_H, transform: `scale(${scale})`, transformOrigin: 'top left', position: 'absolute', top: 0, left: 0 }}>
+          {children}
+        </div>
+        <div style={{ position: 'absolute', top: islandTop, left: islandLeft, width: islandW, height: islandH, background: '#000', borderRadius: islandH / 2, zIndex: 20 }}/>
+      </div>
+    </div>
+  );
+}
+
+function PickPhoneSize() {
+  const [w, setW] = React.useState(window.innerWidth);
+  React.useEffect(() => {
+    const fn = () => setW(window.innerWidth);
+    window.addEventListener('resize', fn);
+    return () => window.removeEventListener('resize', fn);
+  }, []);
+  return w < 860 ? 280 : 380;
+}
+
+function HeroPhone() {
+  return <Phone w={PickPhoneSize()}><MainScreen/></Phone>;
+}
+function VoicePhone() {
+  return <Phone w={PickPhoneSize()}><VoiceScreen/></Phone>;
+}
+
+ReactDOM.createRoot(document.getElementById('hero-phone-slot')).render(<HeroPhone/>);
+ReactDOM.createRoot(document.getElementById('voice-phone-slot')).render(<VoicePhone/>);
+</script>
+
+</body>
+</html>

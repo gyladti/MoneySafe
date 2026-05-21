@@ -1,0 +1,92 @@
+/* MoneySafe — design tokens lifted from the user's screenshots */
+:root {
+  --ms-bg: #f4efe4;
+  --ms-bg-warm: #f1e9d8;
+  --ms-cream: #efe8da;
+  --ms-card: #ffffff;
+  --ms-card-soft: #f7f2e8;
+
+  --ms-red: #e5392a;
+  --ms-red-deep: #c52a20;
+  --ms-red-bright: #ef3b2b;
+  --ms-brown: #3a1f1a;
+  --ms-brown-deep: #2a1410;
+  --ms-coral: #ee9a8a;
+  --ms-salmon: #f4c4b4;
+  --ms-peach: #f8dcd7;
+  --ms-pink-faint: #fbe9e4;
+
+  --ms-ink: #1a1715;
+  --ms-ink-soft: #2a2521;
+  --ms-muted: #9c9489;
+  --ms-muted-2: #b8b0a4;
+  --ms-line: rgba(58, 31, 26, 0.08);
+
+  --ms-shadow-phone: 0 80px 140px -40px rgba(58, 31, 26, 0.35), 0 30px 60px -30px rgba(58, 31, 26, 0.25);
+  --ms-shadow-card: 0 4px 16px rgba(58, 31, 26, 0.04);
+
+  --ms-font: 'Manrope', 'Mulish', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--ms-font);
+  background: #efece6;
+  color: var(--ms-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Reused chrome */
+.ms-statusbar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 110px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 56px 22px;
+  font-weight: 700;
+  font-size: 30px;
+  color: var(--ms-ink);
+  z-index: 5;
+  pointer-events: none;
+}
+.ms-statusbar .right { display: flex; gap: 10px; align-items: center; }
+.ms-statusbar svg { display: block; }
+
+.ms-bottom-indicator {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  width: 270px;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(20, 15, 12, 0.85);
+}
+
+/* Pill button shared */
+.ms-cta {
+  width: calc(100% - 56px);
+  margin: 0 28px;
+  padding: 38px 0;
+  text-align: center;
+  background: var(--ms-red);
+  color: #fff;
+  border-radius: 28px;
+  font-weight: 700;
+  font-size: 40px;
+  letter-spacing: -0.01em;
+}
+
+.ms-page {
+  position: absolute;
+  inset: 0;
+  background: var(--ms-bg);
+  overflow: hidden;
+  font-family: var(--ms-font);
+}
